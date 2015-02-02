@@ -25,18 +25,44 @@ module DBSupplier
       end
 
       def create
+        @logger.info "----- create start -----"
+
         databases.each do |database|
+          @logger.info "----- create #{database} start -----"
+
           database_name = ActiveRecord::Base.configurations[database.to_s].delete "database"
           connection = get_connection(database)
+
+          @logger.debug "----- connected -----"
+
+          @logger.debug "----- create execute -----"
           connection.create_database database_name
+          @logger.debug "----- create success -----"
+
+          @logger.info "----- create #{database} finished -----"
         end
+
+        @logger.info "----- create finished -----"
       end
 
       def drop
+        @logger.info "----- drop start -----"
+
         databases.each do |database|
           database_name = ActiveRecord::Base.configurations[database.to_s]["database"]
           connection = get_connection(database)
+
+          @logger.debug "----- connected -----"
+
+          @logger.debug "----- drop execute -----"
           connection.drop_database database_name
+          @logger.debug "----- drop success -----"
+
+          @logger.info "----- drop #{database} finished -----"
+        end
+
+        @logger.info "----- drop finished -----"
+          connection = get_connection(database)
         end
       end
 
