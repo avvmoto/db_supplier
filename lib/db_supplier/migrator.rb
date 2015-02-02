@@ -25,19 +25,11 @@ module DBSupplier
       end
 
       def create
-        @logger.info "----- create start -----"
-        get_connection
-
         databases.each do |database|
-          @logger.info "----- #{database} create start -----"
-          @logger.debug "----- connected -----"
-
-          ActiveRecord::Migrator.create_database database, @databases_config[database]
-
-          @logger.info "----- #{database} create finished -----"
+          name = ActiveRecord::Base.configurations[database.to_s].delete "database"
+          connection = get_connection(database)
+          connection.create_database name
         end
-
-        @logger.info "----- create finished -----"
       end
 
       def migrate

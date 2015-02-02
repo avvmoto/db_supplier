@@ -12,10 +12,16 @@ namespace :db do
       DBSupplier::Migrator.migrate
     end
 
-    desc 'Migrate database from DDL files of unmanaged in the Rails App'
+    desc 'Create databases found in the given config'
     task create: :environment  do
       raise "This task can be performed in non production." if Rails.env == 'production'
       DBSupplier::Migrator.create
+    end
+
+    desc 'Drop databases found in the given config'
+    task drop: :environment  do
+      raise "This task can be performed in non production." if Rails.env == 'production'
+      DBSupplier::Migrator.drop
     end
 
     namespace :migrate do
