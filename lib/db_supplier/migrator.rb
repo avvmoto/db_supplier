@@ -29,11 +29,7 @@ module DBSupplier
         databases.each do |database|
           @logger.info "----- #{database} migrate start -----"
 
-          if (ActiveRecord.const_defined?(:Import))
-            connection = ActiveRecord::Base.establish_connection_without_activerecord_import(database).connection
-          else
-            connection = ActiveRecord::Base.establish_connection(database).connection
-          end
+          connection = get_connection(database)
 
           @logger.debug "----- connected -----"
 
@@ -94,6 +90,16 @@ module DBSupplier
 
       def databases
         @schema_files.try(:keys) || []
+      end
+
+      private
+
+      def get_connection(database)
+        if (ActiveRecord.const_defined?(:Import))
+          ActiveRecord::Base.establish_connection_without_activerecord_import(database).connection
+        else
+          ActiveRecord::Base.establish_connection(database).connection
+        end
       end
     end
   end
