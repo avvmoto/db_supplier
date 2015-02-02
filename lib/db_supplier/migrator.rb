@@ -36,7 +36,7 @@ module DBSupplier
           @logger.debug "----- connected -----"
 
           @logger.debug "----- create execute -----"
-          connection.create_database database_name
+          connection.create_database(database_name, @databases_config[database_name])
           @logger.debug "----- create success -----"
 
           @logger.info "----- create #{database} finished -----"
