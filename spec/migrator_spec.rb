@@ -101,7 +101,6 @@ describe DBSupplier::Migrator do
             schema_repository: 'repo_name',
             access_token: 'access_token',
             schema_files: { external_database_test: 'foo.sql' },
-            logger: Logger.new('/dev/null')
           }
         }
         @table_name = 'foo_table'

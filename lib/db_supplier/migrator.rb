@@ -17,10 +17,27 @@ module DBSupplier
         @schema_ref        = config[:schema_ref] || 'master'
         @schema_files      = config[:schema_files].symbolize_keys
         @access_token      = config[:access_token]
+        @databases_config  = config[:databases_config] || {}
 
         @github_api_endpoint = config[:github_api_endpoint]
 
         @logger = config[:logger] || Logger.new(STDOUT)
+      end
+
+      def create
+        @logger.info "----- create start -----"
+        get_connection
+
+        databases.each do |database|
+          @logger.info "----- #{database} create start -----"
+          @logger.debug "----- connected -----"
+
+          ActiveRecord::Migrator.create_database database, @databases_config[database]
+
+          @logger.info "----- #{database} create finished -----"
+        end
+
+        @logger.info "----- create finished -----"
       end
 
       def migrate
