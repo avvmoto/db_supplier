@@ -34,7 +34,7 @@ module DBSupplier
 
       def drop
         databases.each do |database|
-          dabatase_name = ActiveRecord::Base.configurations[database.to_s]["database"]
+          database_name = ActiveRecord::Base.configurations[database.to_s]["database"]
           connection = get_connection(database)
           connection.drop_database database_name
         end
