@@ -17,7 +17,6 @@ module DBSupplier
         @schema_ref        = config[:schema_ref] || 'master'
         @schema_files      = config[:schema_files].symbolize_keys
         @access_token      = config[:access_token]
-        @databases_config  = config[:databases_config] || {}
 
         @github_api_endpoint = config[:github_api_endpoint]
 
@@ -36,7 +35,7 @@ module DBSupplier
           @logger.debug "----- connected -----"
 
           @logger.debug "----- create execute -----"
-          connection.create_database(database_name, @databases_config[database_name])
+          connection.create_database(database_name)
           @logger.debug "----- create success -----"
 
           @logger.info "----- create #{database} finished -----"
@@ -55,7 +54,7 @@ module DBSupplier
           @logger.debug "----- connected -----"
 
           @logger.debug "----- drop execute -----"
-          connection.drop_database database_name
+          connection.drop_database(database_name)
           @logger.debug "----- drop success -----"
 
           @logger.info "----- drop #{database} finished -----"
