@@ -26,9 +26,17 @@ module DBSupplier
 
       def create
         databases.each do |database|
-          name = ActiveRecord::Base.configurations[database.to_s].delete "database"
+          dabatase_name = ActiveRecord::Base.configurations[database.to_s].delete "database"
           connection = get_connection(database)
-          connection.create_database name
+          connection.create_database database_name
+        end
+      end
+
+      def drop
+        databases.each do |database|
+          dabatase_name = ActiveRecord::Base.configurations[database.to_s]["database"]
+          connection = get_connection(database)
+          connection.drop_database database_name
         end
       end
 
