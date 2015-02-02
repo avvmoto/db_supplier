@@ -62,8 +62,6 @@ module DBSupplier
         end
 
         @logger.info "----- drop finished -----"
-          connection = get_connection(database)
-        end
       end
 
       def migrate
