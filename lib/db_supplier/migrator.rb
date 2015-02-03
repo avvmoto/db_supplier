@@ -28,12 +28,11 @@ module DBSupplier
 
         databases.each do |database|
           @logger.info "----- create #{database} start -----"
-
-          database_name = ActiveRecord::Base.configurations[database.to_s].try(:delete, "database")
+          owner = ActiveRecord::Base.configurations[database.to_s].dup
+          database_name = owner.try(:delete, "database")
 
           abort "No database configured for #{database}" if database_name.nil?
-
-          connection = get_connection(database)
+          connection = get_connection(owner)
 
           @logger.debug "----- connected -----"
 
